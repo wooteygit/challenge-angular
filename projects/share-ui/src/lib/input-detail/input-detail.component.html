@@ -1,0 +1,171 @@
+<div class="container p-4">
+    <div class="row mb-3 border-bottom">
+        <div class="col-12">
+            <h4 class="pb-2 ">1. Tax Filing Detail</h4>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <p class="mb-2 mandatory-field">Type of filing</p>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-3 col-sm-6 position-relative">
+            <div class="form-check my-1">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="filingType"
+                  id="ordinaryFiling"
+                  [(ngModel)]="taxFiling.filingType"
+                  [checked]="true"
+                  value="0"
+                  (change)="filingTypeChange(OrdinaryFiling, AdditionalFiling)"
+                  #OrdinaryFiling
+                />
+                <label class="form-check-label" for="ordinaryFiling"> 
+                    {{strOrdinaryFiling}} <i class="bi bi-question-circle-fill ms-1 tp border-bottom-0"><span class="tptext">Ordinary Filing</span></i>
+                </label>
+            </div>
+        </div>
+        <div class="col-lg-3 col-sm-6">
+            <div class="form-check my-1">
+                <input
+                  class="form-check-input"
+                  type="radio"
+                  name="filingType"
+                  id="additionalFiling"
+                  [(ngModel)]="taxFiling.filingType"
+                  value="1"
+                  (change)="filingTypeChange(OrdinaryFiling, AdditionalFiling)"
+                  #AdditionalFiling
+                />
+                <label class="form-check-label" for="additionalFiling"> 
+                    Additional Filing  <i class="bi bi-question-circle-fill ms-1 tp border-bottom-0"><span class="tptext">Additional Filing</span></i>
+                </label>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-md-6 col-sm-6">
+            <p class="mb-2 mandatory-field">VAT Month</p>
+            <div class="row">
+                <div class="col-md-6 col-sm-12">
+                    <select class=" form-select my-1 form-select-md form-border d-flex" aria-label=".form-select-lg example" #month [(ngModel)]="taxFiling.month" (change)="taxFiling.monthName = month.options[month.selectedIndex].text">
+                        <option *ngFor="let m of months" [value]="m.value">{{m.name}}</option>
+                    </select>
+                </div>
+                <div class="col-md-6 col-sm-12">
+                    <select class="form-select form-select-md mb-3 form-border" aria-label=".form-select-lg example" [(ngModel)]="taxFiling.year">
+                        <option *ngFor="let y of years" [value]="y">{{y}}</option>
+                    </select>
+                </div>
+            </div>
+        </div>
+        <ng-template [ngIf]="taxFiling.filingType == '1'">
+            <div class="col-md-6 col-sm-6">
+                <div class="row">
+                    <p class="mb-2 mandatory-field">Type</p>
+                    <div class="col-md-6 col-sm-12">
+                        <select class=" form-select form-select-md form-border d-flex" aria-label=".form-select-lg example">
+                            <option selected>On-Time</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+        </ng-template>
+    </div>
+    <div class="row mb-3 border-bottom">
+        <div class="col-12 d-flex justify-content-between">
+            <h4 class="border-2">2. Tax Compution</h4><p style="cursor: pointer;"><u class="tp">View Exchange Rate <span class="tptext">Coming soon</span></u></p>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-12">
+            <b class="pb-2 mandatory-field">Provide total value taxable electronic service</b>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-lg-9 col-sm-6 d-flex align-items-center">
+            <p class="align-middle" *ngIf="taxFiling.filingType == '0'">1. Total value of taxable electronic service exclusive of VAT</p>
+            <p class="align-middle" *ngIf="taxFiling.filingType == '1'">1. Underdeclared Thai taxable electronic service</p>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="form-control d-flex flex-row form-border">
+                <input 
+                    type="text" 
+                    class="border-0 w-75 text-end"
+                    directiveTxtNumber 
+                    [OnlyNumber]="true"
+                    (change)="taxFiling.saleAmount = toNumber(saleAmount.value);"
+                    (focus)="(!saleAmount.value || saleAmount.value == '0') ? saleAmount.value = '' : saleAmount.value = saleAmount.value.replaceAll(',', '')"
+                    #saleAmount
+                    (blur)="onFocusOut(saleAmount); calTaxAmount(taxAmount);"
+                    value="{{(taxFiling.saleAmount == 0 ? '' : taxFiling.saleAmount) | number: taxFiling.saleAmount > 0 ? '1.2-2' : ''}}"
+                >
+                <span class="w-25 text-end">THB</span>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-lg-9 col-sm-6 d-flex align-items-center">
+            <p class="align-middle">2. Total VAT to be remitted(7% of 1.)</p>
+        </div>
+        <div class="col-md-3 col-sm-6">
+            <div class="form-control d-flex flex-row form-border">
+                <input 
+                    #taxAmount
+                    type="text" 
+                    class="border-0 w-75 text-end" 
+                    (change)="taxFiling.taxAmount = toNumber(taxAmount.value)"
+                    directiveTxtNumber 
+                    [OnlyNumber]="true" 
+                    (focus)="(!taxAmount.value || taxAmount.value == '0') ? taxAmount.value = '' : taxAmount.value = taxAmount.value.replaceAll(',', '')"
+                    (blur)="onFocusOut(taxAmount);"
+                    value="{{(taxFiling.taxAmount == 0 ? '' : taxFiling.taxAmount) | number: taxFiling.taxAmount > 0 ? '1.2-2' : ''}}"
+                >
+                <span class="w-25 text-end">THB</span>
+            </div>
+        </div>
+    </div>
+    <ng-template [ngIf]="taxFiling.filingType == '1'">
+        <div class="row mb-3">
+            <div class="col-12">
+                <b class="pb-2">In case of late filing and payment, or additional filing</b>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-lg-9 col-sm-6 d-flex align-items-center">
+                <p class="align-middle">3. Surcharge <i class="bi bi-question-circle-fill ms-1 tp border-bottom-0"><span class="tptext">Surcharge</span></i></p>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="form-control d-flex flex-row border-0 bg-secondary bg-opacity-25">
+                    <input type="text" class="border-0 w-75 bg-transparent text-end" value="{{(taxFiling.surcharge == 0 ? '' : taxFiling.surcharge) | number: '1.2-2'}}" readonly>
+                    <span class="w-25 text-end">THB</span>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-lg-9 col-sm-6 d-flex align-items-center">
+                <p class="align-middle">4. Penalty <i class="bi bi-question-circle-fill ms-1 tp border-bottom-0"><span class="tptext">Penalty</span></i></p>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="form-control d-flex flex-row border-0 bg-secondary bg-opacity-25">
+                    <input type="text" class="border-0 w-75 bg-transparent text-end" value="{{(taxFiling.penalty == 0 ? '' : taxFiling.penalty) | number: '1.2-2'}}" readonly>
+                    <span class="w-25 text-end">THB</span>
+                </div>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-lg-9 col-sm-6 d-flex align-items-center">
+                <p class="align-middle">5. Total amount of VAT, surcharge, and penalty to be remitted (2.+3.+4.)</p>
+            </div>
+            <div class="col-md-3 col-sm-6">
+                <div class="form-control d-flex flex-row border-0 bg-secondary bg-opacity-25">
+                    <input type="text" class="border-0 w-75 bg-transparent text-end" value="{{(taxFiling.totalAmount == 0 ? '' : taxFiling.totalAmount) | number: '1.2-2'}}" readonly>
+                    <span class="w-25 text-end">THB</span>
+                </div>
+            </div>
+        </div>
+    </ng-template>
+</div>

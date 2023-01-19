@@ -1,0 +1,74 @@
+<div class="container p-4">
+    <div class="row mb-3 border-bottom">
+        <div class="col-12">
+            <h4 class="pb-2">Tax Filing Detail</h4>
+        </div>
+    </div>
+    <div class="row mb-4">
+        <div class="col-12">
+            <p><b class="me-4">Type of filing</b> <span>{{taxFiling.filingTypeName}}</span></p>
+            <p><b class="me-4">VAT Month</b> <span>{{taxFiling.monthName}} {{taxFiling.year}}</span></p>
+        </div>
+    </div>
+    <div class="row mb-3 border-bottom">
+        <div class="col-12">
+            <h4 class="pb-2">Tax Compution</h4>
+        </div>
+    </div>
+    <ng-template [ngIf]="taxFiling.filingType == '0'">
+        <div class="row mb-3">
+            <div class="col-md-11 col-sm-12">
+                <p class="d-flex justify-content-between"><b>Total value of taxable electronic service exclusive of UAT</b><span>{{taxFiling.saleAmount | number: '1.2-2'}} THB</span></p>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-11 col-sm-12">
+                <p class="d-flex justify-content-between"><b>Total VAT to be remitted</b><span>{{taxFiling.taxAmount | number: '1.2-2'}} THB</span></p>
+                <p>(7% of Total value of taxable electronic servide exclusive of VAT)</p>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-11 col-sm-12">
+                <p class="d-flex justify-content-between"><b>Total Amount Payable</b><b>{{taxFiling.taxAmount | number: '1.2-2'}} THB</b></p>
+            </div>
+        </div>
+    </ng-template>
+    <ng-template [ngIf]="taxFiling.filingType == '1'">
+        <div class="row mb-3">
+            <div class="col-md-11 col-sm-12">
+                <p class="d-flex justify-content-between"><b>Total value of taxable electronic service exclusive of UAT</b><span>{{taxFiling.saleAmount | number: '1.2-2'}} THB</span></p>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-11 col-sm-12">
+                <p class="d-flex justify-content-between"><b>Total VAT to be remitted</b><span>{{taxFiling.taxAmount | number: '1.2-2'}} THB</span></p>
+                <p>(7% of Total value of taxable electronic servide exclusive of VAT)</p>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-11 col-sm-12">
+                <p class="d-flex justify-content-between"><b>Surcharge</b><span>{{taxFiling.surcharge | number: '1.2-2'}} THB</span></p>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-11 col-sm-12">
+                <p class="d-flex justify-content-between"><b>Penalty</b><span>{{taxFiling.penalty | number: '1.2-2'}} THB</span></p>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <div class="col-md-11 col-sm-12">
+                <p class="d-flex justify-content-between"><b>Total Amount Payable</b><b>{{taxFiling.totalAmount | number: '1.2-2'}} THB</b></p>
+            </div>
+        </div>
+    </ng-template>
+    <div class="row mb-3 mt-5 border-bottom">
+        <div class="col-12">
+            <h4 class="pb-2">Declaration</h4>
+        </div>
+    </div>
+    <div class="row mb-3 mt-3">
+        <div class="col-12 ">
+            <p>I hereby cretify that information given above are true and correct and agree to be bound by such information.</p>
+        </div>
+    </div>
+</div>

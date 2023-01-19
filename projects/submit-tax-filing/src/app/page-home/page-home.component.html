@@ -1,0 +1,60 @@
+<common-ui-nav-bar></common-ui-nav-bar>
+<div class="container mt-4 pt-4">
+    <div class="row mt-3">
+        <div class="col-12 text-center">
+            <h1>Submit Tax Filing</h1>
+        </div>
+    </div>
+    <div class="row py-4">
+        <div class="col-sm-12 col-md-4 mx-auto">
+            <div class="wrapper">
+                <ol class="c-stepper p-0">
+                  <li class="c-stepper__item" [ngClass]="{'active': step == 1, 'past': step > 1}">
+                    <p class="c-stepper__desc">Input Detail</p>
+                  </li>
+                  <li class="c-stepper__item" [ngClass]="{'active': step == 2, 'past': step > 2}">
+                    <p class="c-stepper__desc">Review & Confirm</p>
+                  </li>
+                </ol>
+              </div>
+        </div>
+    </div>
+    <div class="row mb-3">
+        <div class="col-sm-12 col-md-8 mx-auto">
+            <div class="card" style="border: 2px solid #000;" *ngIf="step == 1">
+                <share-ui-input-detail [taxFiling]="taxData"></share-ui-input-detail>
+            </div>
+            <div class="card" style="border: 2px solid #000;" *ngIf="step == 2">
+                <share-ui-review-confirm [taxFiling]="taxData"></share-ui-review-confirm>
+            </div>
+        </div>
+    </div>
+    <div class="row mb-5">
+        <div class="col-sm-12 col-md-8 mx-auto py-3">
+            <div class="row" *ngIf="step == 1">
+                <div class="col-md-3 col-sm-12 d-flex justify-content-sm-between justify-content-md-start">
+                    <button type="button" class="btn btn-outline-secondary rounded-pill py-2 w-50 me-1">Back</button>
+                    <button type="button" class="btn btn-dark rounded-pill py-2 w-50" (click)="gotoConfirmReview()">Next</button>
+                </div>
+                <div class="col-auto d-flex align-items-center" *ngIf="taxData.errMsg">
+                    <p class="text-danger">{{taxData.errMsg}}</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-5 col-sm-12 d-flex justify-content-center mx-auto" *ngIf="step == 2">
+                    <button type="button" class="btn btn-dark rounded-pill py-2 w-50" (click)="open(content)">Confrim and Submit</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #content let-modal>
+	<div class="modal-header">
+		<h5 class="modal-title" id="modal-basic-title">Confirm and Submit</h5>
+        <i class="bi bi-x-circle-fill cursor-pointer" aria-label="Close" (click)="modal.dismiss('Cross click')"></i>
+	</div>
+	<div class="modal-body py-4">
+		{{taxData | json}}
+	</div>
+</ng-template>

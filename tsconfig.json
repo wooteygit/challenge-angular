@@ -1,0 +1,67 @@
+/* To learn more about this file see: https://angular.io/config/tsconfig. */
+{
+  "compileOnSave": false,
+  "compilerOptions": {
+    "baseUrl": "./",
+    "paths": {
+      "common-ui": [
+        "dist/common-ui/common-ui",
+        "dist/common-ui"
+      ],
+      "@common-ui": [
+        "projects/common-ui/src/public-api"
+      ],
+      "share-ui": [
+        "dist/share-ui/share-ui",
+        "dist/share-ui"
+      ],
+      "@share-ui": [
+        "projects/share-ui/src/public-api"
+      ],
+      "model-interface": [
+        "dist/model-interface/model-interface",
+        "dist/model-interface"
+      ],
+      "@model-interface": [
+        "projects/model-interface/src/public-api"
+      ],
+      "share-directive": [
+        "dist/share-directive/share-directive",
+        "dist/share-directive"
+      ],
+      "@share-directive": [
+        "projects/share-directive/src/public-api"
+      ],
+      "@data-api": [
+        "projects/data-api/public-api"
+      ],
+      "@utility-api": [
+        "projects/utility-api/public-api"
+      ]
+    },
+    "outDir": "./dist/out-tsc",
+    "forceConsistentCasingInFileNames": true,
+    "strict": true,
+    "noImplicitReturns": true,
+    "noFallthroughCasesInSwitch": true,
+    "sourceMap": true,
+    "declaration": false,
+    "downlevelIteration": true,
+    "experimentalDecorators": true,
+    "moduleResolution": "node",
+    "importHelpers": true,
+    "target": "es2017",
+    "module": "es2020",
+    "lib": [
+      "es2018",
+      "dom",
+      "ES2021.String"
+    ]
+  },
+  "angularCompilerOptions": {
+    "enableI18nLegacyMessageIdFormat": false,
+    "strictInjectionParameters": true,
+    "strictInputAccessModifiers": true,
+    "strictTemplates": true
+  }
+}
